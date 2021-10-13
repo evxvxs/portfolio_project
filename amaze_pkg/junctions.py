@@ -1,12 +1,21 @@
+from random import randrange
 from amaze_pkg.maze import generate_maze
+from amaze_pkg.rooms import Challenge_Rooms
+import random
 
-maze = {0: 1, 1: 4}
-junction = 2
+maze = {0: 1, 1: 4, 2: 4, 3: 4, 4: 4}
+junction = 5
 player_location = 0
+challenge = Challenge_Rooms()
 # position_previous = 0
 # previous = "north"
 # last_previous = "north"
-generate_maze(maze, junction)
+
+
+def regenerate():
+    generate_maze(maze, junction)
+    challenge.current = 0
+    challenge.rooms = [0, 1, 2, 3, 4]
 
 
 class Junction:
@@ -40,22 +49,21 @@ class Junction_Entrance(Junction):
                     player_location += 1
                 doors[last_player_location[-1] + 0.1] = player_location
                 explored.append(player_location)
-                print("KEY/VALUE PAIR GENERATED")
+
                 # For Debug
                 print(f"""\nYou move north to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif (player_location + 0.1) in doors:
                 prior = "south"
                 last_player_location.append(player_location)
                 last_prior.append(prior)
                 player_location = doors[(player_location + 0.1)]
-                print("USED A KEY/VALUE PAIR")
                 # For Debug
                 print(f"""\nYou move north to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
         else:
             print(f"""\nYou choose to wait...""")
-            return player_location, prior, last_player_location, last_prior, doors, explored
+            return player_location, prior, last_player_location, last_prior, doors, explored, True
 
 
 class Junction_First(Junction):
@@ -84,19 +92,18 @@ class Junction_First(Junction):
                     player_location += 1
                 doors[last_player_location[-1] + 0.1] = player_location
                 explored.append(player_location)
-                print("KEY/VALUE PAIR GENERATED")
+
                 # For Debug
                 print(f"""\nYou move north to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif (player_location + 0.1) in doors:
                 prior = "south"
                 last_player_location.append(player_location)
                 last_prior.append(prior)
                 player_location = doors[(player_location + 0.1)]
-                print("USED A KEY/VALUE PAIR")
                 # For Debug
                 print(f"""\nYou move north to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif option == str(2):
             if (player_location + 0.2) not in doors:
                 prior = "west"
@@ -106,19 +113,18 @@ class Junction_First(Junction):
                     player_location += 1
                 doors[last_player_location[-1] + 0.2] = player_location
                 explored.append(player_location)
-                print("KEY/VALUE PAIR GENERATED")
+
                 # For Debug
                 print(f"""\nYou move east to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif (player_location + 0.2) in doors:
                 prior = "west"
                 last_player_location.append(player_location)
                 last_prior.append(prior)
                 player_location = doors[player_location + 0.2]
-                print("USED A KEY/VALUE PAIR")
                 # For Debug
                 print(f"""\nYou move east to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
         elif option == str(3):
             if (player_location + 0.3) not in doors:
                 prior = "east"
@@ -128,28 +134,27 @@ class Junction_First(Junction):
                     player_location += 1
                 doors[last_player_location[-1] + 0.3] = player_location
                 explored.append(player_location)
-                print("KEY/VALUE PAIR GENERATED")
+
                 # For Debug
                 print(f"""\nYou move west to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif (player_location + 0.3) in doors:
                 prior = "east"
                 last_player_location.append(player_location)
                 last_prior.append(prior)
                 player_location = doors[player_location + 0.3]
-                print("USED A KEY/VALUE PAIR")
                 # For Debug
                 print(f"""\nYou move west to junction {player_location}.""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, False
         elif option == str(4):
             player_location = last_player_location.pop()
             prior = last_prior.pop()
             print(
                 f"""\nYou move south to junction {player_location}, the entrance to the maze.""")
-            return player_location, prior, last_player_location, last_prior, doors, explored
+            return player_location, prior, last_player_location, last_prior, doors, explored, False
         else:
             print(f"""\nYou choose to wait...""")
-            return player_location, prior, last_player_location, last_prior, doors, explored
+            return player_location, prior, last_player_location, last_prior, doors, explored, True
 
 
 class Junction_1_Turns(Junction):
@@ -171,10 +176,10 @@ class Junction_1_Turns(Junction):
                 f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
             player_location = last_player_location.pop()
             prior = last_prior.pop()
-            return player_location, prior, last_player_location, last_prior, doors, explored
+            return player_location, prior, last_player_location, last_prior, doors, explored, True
         else:
             print(f"""\nYou choose to wait...""")
-            return player_location, prior, last_player_location, last_prior, doors, explored
+            return player_location, prior, last_player_location, last_prior, doors, explored, True
 
 
 class Junction_2_Turns(Junction):
@@ -187,6 +192,10 @@ class Junction_2_Turns(Junction):
         return f"{self.position=} {self.turns=} {self.type=}"
 
     def nav(self, player_location, prior, last_player_location, last_prior, doors, explored):
+        print(explored)
+        print(player_location)
+        if player_location == explored[-1]:
+            challenge.room(random.randrange(0, 5))
         if prior == "north":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -198,7 +207,7 @@ class Junction_2_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "north"
@@ -208,24 +217,22 @@ class Junction_2_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
-                        f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                        f"""\nYou move south to junction {player_location}.""")
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "south":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -237,7 +244,7 @@ class Junction_2_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "south"
@@ -247,24 +254,23 @@ class Junction_2_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "east":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -276,7 +282,7 @@ class Junction_2_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "east"
@@ -286,24 +292,23 @@ class Junction_2_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "west":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -315,7 +320,7 @@ class Junction_2_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "west"
@@ -325,24 +330,23 @@ class Junction_2_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
 
 
 class Junction_3_Turns(Junction):
@@ -367,7 +371,7 @@ class Junction_3_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "north"
@@ -377,21 +381,20 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "west"
@@ -401,24 +404,23 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "west"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "south":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -431,7 +433,7 @@ class Junction_3_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "south"
@@ -441,21 +443,20 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "east"
@@ -465,24 +466,23 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "east":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -495,7 +495,7 @@ class Junction_3_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "east"
@@ -505,21 +505,20 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou west north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "south"
@@ -529,24 +528,23 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "west":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -559,7 +557,7 @@ class Junction_3_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "west"
@@ -569,21 +567,19 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "west"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "north"
@@ -593,24 +589,22 @@ class Junction_3_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, True
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
 
 
 class Junction_4_Turns(Junction):
@@ -636,7 +630,7 @@ class Junction_4_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "north"
@@ -646,21 +640,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "west"
@@ -670,21 +662,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "west"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(4):
                 if (player_location + 0.3) not in doors:
                     prior = "east"
@@ -694,24 +684,22 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.3] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.3) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.3)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "south":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -725,7 +713,7 @@ class Junction_4_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "south"
@@ -735,21 +723,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "east"
@@ -759,21 +745,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(4):
                 if (player_location + 0.3) not in doors:
                     prior = "west"
@@ -783,24 +767,22 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.3] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.3) in doors:
                     prior = "west"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.3)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "east":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -814,7 +796,7 @@ class Junction_4_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "east"
@@ -824,21 +806,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "east"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move west to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "south"
@@ -848,21 +828,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(4):
                 if (player_location + 0.3) not in doors:
                     prior = "north"
@@ -872,24 +850,22 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.3] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.3) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.3)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
         elif prior == "west":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)
@@ -903,7 +879,7 @@ class Junction_4_Turns(Junction):
                     f"""\nYou move {last_prior[-1]} to junction {last_player_location[-1]}.""")
                 player_location = last_player_location.pop()
                 prior = last_prior.pop()
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
             elif option == str(2):
                 if (player_location + 0.1) not in doors:
                     prior = "west"
@@ -913,21 +889,19 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.1] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.1) in doors:
                     prior = "west"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.1)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move east to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(3):
                 if (player_location + 0.2) not in doors:
                     prior = "north"
@@ -937,21 +911,20 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.2] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.2) in doors:
                     prior = "north"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.2)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move south to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             elif option == str(4):
                 if (player_location + 0.3) not in doors:
                     prior = "south"
@@ -961,21 +934,20 @@ class Junction_4_Turns(Junction):
                         player_location += 1
                     doors[last_player_location[-1] + 0.3] = player_location
                     explored.append(player_location)
-                    print("KEY/VALUE PAIR GENERATED")
+
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
                 elif (player_location + 0.3) in doors:
                     prior = "south"
                     last_player_location.append(player_location)
                     last_prior.append(prior)
                     player_location = doors[(player_location + 0.3)]
-                    print("USED A KEY/VALUE PAIR")
                     # For Debug
                     print(
                         f"""\nYou move north to junction {player_location}.""")
-                    return player_location, prior, last_player_location, last_prior, doors, explored
+                    return player_location, prior, last_player_location, last_prior, doors, explored, False
             else:
                 print(f"""\nYou choose to wait...""")
-                return player_location, prior, last_player_location, last_prior, doors, explored
+                return player_location, prior, last_player_location, last_prior, doors, explored, True
