@@ -3,49 +3,86 @@ import random
 
 class Challenge_Rooms():
     current = 0
-    rooms = [0, 1, 2, 3, 4]
+    rooms = [0, 1, 2, 3, 4, 5]
 
     def room(self, challenge):
-        print(challenge)
+        # print(challenge)
         if self.rooms == []:
             return
         while challenge not in self.rooms:
-            challenge = random.randrange(0, 5)
+            challenge = random.randrange(0, 6)
         self.rooms.remove(challenge)
         if challenge == 0:
-            print("Challenge 0")
-            print(f"""\nYou step into a room with a locked door. You need to find the key in order to progress.
+            location = [0, 1]
+            key = random.choice(location)
+            if key == 0:
+                # print("Challenge 0")
+                print(f"""\nYou step into a room with a locked door. You need to find the key in order to progress.
 The room looks very much like an average living room, but with no windows.
 You see a two couches, a coffee table, and a television. There is also
 an armoire, next to a fake plastic plant. There is a clock on the wall,
 both hands of which are spinning rapidly and seeminlgy at random.""")
-            while True:
-                option = input(f"""\nWhere do you search for the key? """)
-                option = option.lower()
-                if option == "fake plastic plant" or option == "plastic plant" or option == "plant" or option == "fake plant":
-                    print(f"""\nYou dig around in the mulch of the fake plastic plant and find the key!
+                while True:
+                    option = input(f"""\nWhere do you search for the key? """)
+                    option = option.lower()
+                    if option == "fake plastic plant" or option == "plastic plant" or option == "plant" or option == "fake plant":
+                        print(f"""\nYou dig around in the mulch of the fake plastic plant and find the key!
 You use it to unlock the door and continue through the maze.""")
-                    break
-                else:
-                    print(
-                        f"""You search the {option} for the key, but find nothing.""")
+                        break
+                    else:
+                        print(
+                            f"""You search the {option} for the key, but find nothing.""")
+            elif key == 1:
+                # print("Challenge 1")
+                print(f"""\nYou step into a room with a locked door. You need to find the key in order to progress.
+The room looks very much like an average living room, but with no windows.
+You see a two couches, a coffee table, and a television. There is also
+an armoire, next to a fake plastic plant. There is a clock on the wall,
+both hands of which are spinning rapidly and seeminlgy at random.""")
+                while True:
+                    option = input(f"""\nWhere do you search for the key? """)
+                    option = option.lower()
+                    if option == "tv" or option == "television":
+                        print(f"""\nYou search the TV and find the key taped to the back of it!
+You use it to unlock the door and continue through the maze.""")
+                        break
+                    else:
+                        print(
+                            f"""You search the {option} for the key, but find nothing.""")
         elif challenge == 1:
-            print("Challenge 1")
             print(f"""\nYou step into a room with a locked door. You need to find the key in order to progress.
-The room looks very much like an average living room, but with no windows.
-You see a two couches, a coffee table, and a television. There is also
-an armoire, next to a fake plastic plant. There is a clock on the wall,
-both hands of which are spinning rapidly and seeminlgy at random.""")
+The walls are red curtains, beyond which darkness looms. A zigzagging pattern of black and 
+white covers the floor. A very short man in a bright red suit stands in the middle of the 
+room holding three cups and the key. He looks at you and begans to speak, although he somehow
+speaks every word backwards. This is what you make out:
+
+'I lliw ɘviϱ uoγ ɘ⑁ɟ γɘʞ ʇi uoγ ɟɒɘd ɘm ɘmɒϱ, ɿɘllɘvɒɿɟ. liɟnU uoγ ɟɒɘd ɘm ɘmɒϱ, ɘ⑁ɟ γɘʞ lliw niɒmɘɿ ⑁ɟiw ɘm.'
+
+With that, he puts the key in one of the cups and then places all three cups on the ground
+in front of him, upside down. He then moonwalks slowly backwards around the cups in a circle,
+twice. The first time he passes the cups, they disappear before your eyes. As he passes
+their previous location on his second loop, they reappear. He stops at the end of his second
+loop and looks at you.
+
+'ɘƨoo⑁Ɔ ɒ quɔ.'""")
             while True:
-                option = input(f"""\nWhere do you search for the key? """)
-                option = option.lower()
-                if option == "tv" or option == "television":
-                    print(f"""\nYou search the TV and find the key taped to the back of it!
+                cups = [1, 2, 3]
+                key = str(random.choice(cups))
+                print(
+                    f"""\nThere are three cups in front of you. One contains the key. """)
+                option = input("\nGuess either 1, 2, or 3: ")
+                if option == key:
+                    print(f"""\nThe short man smiles at you. Then he slowly disappears, along with all
+three cups. You find you guessed correctly, as the key remains in the place of cup {option}.
 You use it to unlock the door and continue through the maze.""")
                     break
                 else:
-                    print(
-                        f"""You search the {option} for the key, but find nothing.""")
+                    print(f"""\nThe short man frowns. Without saying a word, he starts to moonwalk
+backwards in a circle once again. The first time, when the cups disappear, you see the key
+was in fact underneaht cup {key}. Better luck next time. He passes the cups once again and
+they reappear. He stops at the end of his second loop and looks at you.
+
+'ɘƨoo⑁Ɔ ɒ quɔ.'""")
         elif challenge == 2:
             code = random.randrange(1000, 9999)
             code = str(code)
@@ -124,7 +161,7 @@ What do you do? """)
 the LED lights on the ceiling shut off. You look up and the only lights remaining
 display the numbers {code}.""")
         elif challenge == 3:
-            print("Challenge 3")
+            # print("Challenge 3")
             print(f"""\nYou step into a room with a locked door. You need to unlock the door in order to progress.
 There are dials on either side of the door.""")
             possible = ["dog", "cat", "fish", "star",
@@ -170,7 +207,7 @@ A ghostly apparition appears before you, and asks you a question....""")
             riddles = ["What has many teeth, but cannot bite?", "What has one eye, but can’t see?", "What kind of room has no doors or windows?",
                        "What is the end of everything?", "What belongs to you, but everyone else uses it?", "Take one out and scratch my head, I am now black but once was red. What am I?"]
             keys = ["comb", "needle", "mushroom", "g", "name", "match"]
-            choice = random.randrange(0, 7)
+            choice = random.randrange(0, 6)
             print(
                 f"""The apparition asks you a question... "{riddles[choice]}" """)
             while True:
@@ -184,3 +221,34 @@ A ghostly apparition appears before you, and asks you a question....""")
                 else:
                     print(
                         f"""\nThe apparition frowns. You assume this means your answer was incorrect...""")
+        elif challenge == 5:
+            print(f"""\nYou step into a room with a door upside down on the ceiling across the room from you.
+If you spun the room 180°, the door would be in it's correct position. There is a floating, 
+glowing wheel in the center of the room. The wheel spins either clockwise or counterclockwise.""")
+            exit = 180
+            while True:
+                option = input(
+                    f"""\nTurn the wheel 'clockwise' or 'counterclockwise': """)
+                if option == "clockwise":
+                    print(f"""\nYou spin the wheel {option}...""")
+                    exit += 90
+                elif option == "counterclockwise":
+                    print(f"""\nYou spin the wheel {option}...""")
+                    exit -= 90
+                else:
+                    print(
+                        f"""\nYou can only spin the wheel 'clockwise' or 'counterclockwise'.""")
+                    continue
+                if exit == 0 or exit == 360:
+                    print(
+                        f"""\nThe room rotates, and the door is now on the floor in front of you! You progress further into the maze.""")
+                    break
+                elif exit == 90:
+                    print(
+                        f"""\nThe room rotates {option} and the door is now on the left wall.""")
+                elif exit == 180:
+                    print(
+                        f"""\nThe room rotates {option} and the door is now on the ceiling.""")
+                elif exit == 270:
+                    print(
+                        f"""\nThe room rotates {option} and the door is now on the right wall.""")

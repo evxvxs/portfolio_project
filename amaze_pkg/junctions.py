@@ -15,7 +15,7 @@ challenge = Challenge_Rooms()
 def regenerate():
     generate_maze(maze, junction)
     challenge.current = 0
-    challenge.rooms = [0, 1, 2, 3, 4]
+    challenge.rooms = [0, 1, 2, 3, 4, 5]
 
 
 class Junction:
@@ -36,7 +36,7 @@ class Junction_Entrance(Junction):
         return f"{self.position=} {self.turns=} {self.type=}"
 
     def nav(self, player_location, prior, last_player_location, last_prior, doors, explored):
-        print(f"""\nYou are at the entrance the maze. The door has been sealed behind you. You can only move North, or wait.
+        print(f"""\nYou are at the entrance to the maze. The door has been sealed behind you. You can only move North, or wait.
 \n1) Move north
 2) Wait""")
         option = input("\nChoose an option: ")
@@ -192,10 +192,10 @@ class Junction_2_Turns(Junction):
         return f"{self.position=} {self.turns=} {self.type=}"
 
     def nav(self, player_location, prior, last_player_location, last_prior, doors, explored):
-        print(explored)
-        print(player_location)
+        # print(explored)
+        # print(player_location)
         if player_location == explored[-1]:
-            challenge.room(random.randrange(0, 5))
+            challenge.room(random.randrange(0, 6))
         if prior == "north":
             print(f"""\nYou are at junction {player_location}. There is {self.turns} directions you can move.
 \n1) Move {prior} (Previous Room)

@@ -17,7 +17,6 @@ def main():
             globals()['j%s' % jnumber] = Junction_3_Turns(jnumber)
         else:
             globals()['j%s' % jnumber] = Junction_4_Turns(jnumber)
-            continue
 
     return_tuple = ()
     player_location = 0
@@ -33,14 +32,14 @@ def main():
 
     while True:
         if player_location == 0:
-            """ print(globals()['j%s' % player_location])
-            print(prior)
-            print(last_prior)
-            print(last_player_location)
-            print(doors)
-            print(explored)
-            print(trigger)
-            print(approach) """
+            # print(globals()['j%s' % player_location])
+            # print(prior)
+            # print(last_prior)
+            # print(last_player_location)
+            # print(doors)
+            # print(explored)
+            # print(trigger)
+            # print(approach)
             # For Debug
             return_tuple = j0.nav(player_location, prior,
                                   last_player_location, last_prior, doors, explored)
@@ -58,14 +57,14 @@ def main():
                 over(player_location)
                 break
         elif player_location == 1:
-            """ print(globals()['j%s' % player_location])
-            print(prior)
-            print(last_prior)
-            print(last_player_location)
-            print(doors)
-            print(explored)
-            print(trigger)
-            print(approach) """
+            # print(globals()['j%s' % player_location])
+            # print(prior)
+            # print(last_prior)
+            # print(last_player_location)
+            # print(doors)
+            # print(explored)
+            # print(trigger)
+            # print(approach)
             # For Debug
             return_tuple = j1.nav(player_location, prior,
                                   last_player_location, last_prior, doors, explored)
@@ -82,18 +81,18 @@ def main():
             if game_over == True:
                 over(player_location)
                 break
-        elif player_location == 50:
+        elif player_location > 30:
             over(player_location)
             break
         else:
-            """ print(globals()['j%s' % player_location])
-            print(prior)
-            print(last_prior)
-            print(last_player_location)
-            print(doors)
-            print(explored)
-            print(trigger)
-            print(approach) """
+            # print(globals()['j%s' % player_location])
+            # print(prior)
+            # print(last_prior)
+            # print(last_player_location)
+            # print(doors)
+            # print(explored)
+            # print(trigger)
+            # print(approach)
             # For Debug
             return_tuple = globals()['j%s' % player_location].nav(
                 player_location, prior, last_player_location, last_prior, doors, explored)
@@ -113,7 +112,7 @@ def main():
 
 
 def over(player_location):
-    if player_location == 50:
+    if player_location > 30:
         print(f"""\nJust as you begin to think the maze will never end, you reach a dead end with a door.
 You walk through the doorway, and wake up in your bed in a cold sweat... The nightmare is over.""")
     while True:
