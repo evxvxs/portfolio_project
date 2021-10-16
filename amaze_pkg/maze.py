@@ -7,8 +7,8 @@ Press enter to begin """)
     while junction < 32:
         maze[junction] = random.randint(1, 4)
         junction = junction + 1
-    for jnumber, jturns in maze.items():
-        print(f"""Junction #{jnumber} has {jturns} turns.""")
+    # for jnumber, jturns in maze.items():
+        # print(f"""Junction #{jnumber} has {jturns} turns.""")
         # For debug
     input(f"""\nThe last thing you can remember is falling asleep in your bed. You're not sure how you
 got here, but you are falling into a dark abyss. This is initially terrifying,
